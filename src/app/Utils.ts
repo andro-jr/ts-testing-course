@@ -26,3 +26,7 @@ export function getStringInfo(arg: string): StringInfo {
     extraInfo: {},
   };
 }
+
+export function ThisIsNotCovered() {
+  console.log("Uncovered");
+}
