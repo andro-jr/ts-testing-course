@@ -46,4 +46,28 @@ describe("OtherUtils test suite", () => {
       expect(timesCalled).toBe(1);
     });
   });
+
+  describe.only("Tracking callbacks with Jest mocks", () => {
+    const callBackMock = jest.fn();
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    it("ToUpperCase - calls callback for invalid argument", () => {
+      const actual = toUpperCaseWithCb("", callBackMock);
+
+      expect(actual).toBeUndefined;
+      expect(callBackMock).toHaveBeenCalledWith("Invalid Argument");
+      expect(callBackMock).toHaveBeenCalledTimes(1);
+    });
+
+    it("ToUpperCase - calls callback for invalid argument", () => {
+      const actual = toUpperCaseWithCb("abc", callBackMock);
+
+      expect(actual).toBeUndefined;
+      expect(callBackMock).toHaveBeenCalledWith("called function with abc");
+      expect(callBackMock).toHaveBeenCalledTimes(1);
+    });
+  });
 });
