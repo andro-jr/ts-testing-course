@@ -12,34 +12,41 @@ describe("PasswordChecker class test suite", () => {
 
   it("Password with less than 8 chars should be invalid", () => {
     const actual = sut.checkPassword("123");
-    console.log("actual :", actual);
     expect(actual.isValid).toBe(false);
     expect(actual.reasons).toContain(PasswordErrors.SHORT);
   });
 
   it("Password with more than 8 chars should be valid", () => {
     const actual = sut.checkPassword("12345678");
-    expect(actual.isValid).toBe(true);
+    console.log("actual :", actual);
     expect(actual.reasons).not.toContain(PasswordErrors.SHORT);
   });
 
-  xit("Password with no uppercase letter is invalid", () => {
-    const actual = sut.checkPassword("323");
-    expect(actual).toBe(false);
+  it("Password with no uppercase letter is invalid", () => {
+    const actual = sut.checkPassword("abcdefgh");
+    expect(actual.isValid).toBe(false);
+    expect(actual.reasons).toContain(PasswordErrors.NO_UPPER_CASE);
   });
 
-  xit("Password with uppercase letter is valid", () => {
-    const actual = sut.checkPassword("12345beF");
-    expect(actual).toBe(true);
+  it("Password with uppercase letter is valid", () => {
+    const actual = sut.checkPassword("abcdefghIJ");
+    expect(actual.reasons).not.toContain(PasswordErrors.NO_UPPER_CASE);
   });
 
-  xit("Password with no lowercase letter is invalid", () => {
+  it("Password with no lowercase letter is invalid", () => {
     const actual = sut.checkPassword("12345BEF");
-    expect(actual).toBe(false);
+    expect(actual.isValid).toBe(false);
+    expect(actual.reasons).toContain(PasswordErrors.NO_LOWER_CASE);
   });
 
-  xit("Password with lowercase letter is valid", () => {
+  it("Password with lowercase letter is valid", () => {
     const actual = sut.checkPassword("12345beF");
-    expect(actual).toBe(true);
+    expect(actual.reasons).not.toContain(PasswordErrors.NO_LOWER_CASE);
+  });
+
+  it("Complex password is valid", () => {
+    const actual = sut.checkPassword("12345beF");
+    expect(actual.reasons).toHaveLength(0);
+    expect(actual.isValid).toBe(true);
   });
 });
