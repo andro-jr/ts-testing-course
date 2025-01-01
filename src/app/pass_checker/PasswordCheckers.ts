@@ -11,19 +11,32 @@ interface CheckResult {
 export class PasswordChecker {
   public checkPassword(password: string): CheckResult {
     const reasons: PasswordErrors[] = [];
-    if (password.length < 8) {
-      reasons.push(PasswordErrors.SHORT);
-    }
-    if (!/[A-Z]/.test(password)) {
-      reasons.push(PasswordErrors.NO_UPPER_CASE);
-    }
-    if (!/[a-z]/.test(password)) {
-      reasons.push(PasswordErrors.NO_LOWER_CASE);
-    }
+
+    this.checkForLength(password, reasons);
+    this.checkForUpperCase(password, reasons);
+    this.checkForLowerCase(password, reasons);
 
     return {
       isValid: reasons.length === 0,
       reasons,
     };
+  }
+
+  private checkForLength(password: string, reasons: PasswordErrors[]) {
+    if (password.length < 8) {
+      reasons.push(PasswordErrors.SHORT);
+    }
+  }
+
+  private checkForUpperCase(password: string, reasons: PasswordErrors[]) {
+    if (!/[A-Z]/.test(password)) {
+      reasons.push(PasswordErrors.NO_UPPER_CASE);
+    }
+  }
+
+  private checkForLowerCase(password: string, reasons: PasswordErrors[]) {
+    if (!/[a-z]/.test(password)) {
+      reasons.push(PasswordErrors.NO_LOWER_CASE);
+    }
   }
 }
