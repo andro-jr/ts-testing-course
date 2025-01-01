@@ -33,4 +33,7 @@ export class OtherStringUtils {
   public logString(arg: string) {
     console.log(arg);
   }
+  public callExternalServices() {
+    console.log("calling external services");
+  }
 }

@@ -91,6 +91,13 @@ describe("OtherUtils test suite", () => {
         sut.logString("asa");
         expect(consoleLogSpy).toHaveBeenCalledWith("asa");
       });
+
+      test("Use a spy to replace the Implementation of a method", () => {
+        jest.spyOn(sut, "callExternalServices").mockImplementation(() => {
+          console.log("calling mocked implementation");
+        });
+        sut.callExternalServices();
+      });
     });
   });
 });
