@@ -1,5 +1,6 @@
 import {
   calculateComplexity,
+  OtherStringUtils,
   toUpperCaseWithCb,
 } from "../../app/doubles/OtherUtils";
 
@@ -16,7 +17,7 @@ describe("OtherUtils test suite", () => {
     expect(actual).toBe(10);
   });
 
-  describe.only("Tracking callbacks", () => {
+  describe("Tracking callbacks", () => {
     let cbArgs: string[];
     let timesCalled: number;
 
@@ -47,7 +48,7 @@ describe("OtherUtils test suite", () => {
     });
   });
 
-  describe.only("Tracking callbacks with Jest mocks", () => {
+  describe("Tracking callbacks with Jest mocks", () => {
     const callBackMock = jest.fn();
 
     afterEach(() => {
@@ -68,6 +69,28 @@ describe("OtherUtils test suite", () => {
       expect(actual).toBeUndefined;
       expect(callBackMock).toHaveBeenCalledWith("called function with abc");
       expect(callBackMock).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe.only("OtherUtils test suite", () => {
+    describe("OtherStringUtils tests with spies", () => {
+      let sut: OtherStringUtils;
+
+      beforeEach(() => {
+        sut = new OtherStringUtils();
+      });
+
+      test("Use a spy to track calls", () => {
+        const toUpperCaseSpy = jest.spyOn(sut, "toUpperCase");
+        sut.toUpperCase("asa");
+        expect(toUpperCaseSpy).toHaveBeenCalledWith("asa");
+      });
+
+      test("Use a spy to track calls to other modules", () => {
+        const consoleLogSpy = jest.spyOn(console, "log");
+        sut.logString("asa");
+        expect(consoleLogSpy).toHaveBeenCalledWith("asa");
+      });
     });
   });
 });
