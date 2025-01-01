@@ -16,15 +16,34 @@ describe("OtherUtils test suite", () => {
     expect(actual).toBe(10);
   });
 
-  it("ToUpperCase - calls callback for invalid argument", () => {
-    const actual = toUpperCaseWithCb("", () => {});
+  describe.only("Tracking callbacks", () => {
+    let cbArgs: string[];
+    let timesCalled: number;
 
-    expect(actual).toBeUndefined;
-  });
+    function callBackMock(arg: string) {
+      cbArgs.push(arg);
+      timesCalled++;
+    }
 
-  it("ToUpperCase - calls callback for valid argument", () => {
-    const actual = toUpperCaseWithCb("abc", () => {});
+    beforeEach(() => {
+      cbArgs = [];
+      timesCalled = 0;
+    });
 
-    expect(actual).toBe("ABC");
+    it("ToUpperCase - calls callback for invalid argument", () => {
+      const actual = toUpperCaseWithCb("", callBackMock);
+
+      expect(actual).toBeUndefined;
+      expect(cbArgs).toContain("Invalid Argument");
+      expect(timesCalled).toBe(1);
+    });
+
+    it("ToUpperCase - calls callback for invalid argument", () => {
+      const actual = toUpperCaseWithCb("abc", callBackMock);
+
+      expect(actual).toBeUndefined;
+      expect(cbArgs).toContain("called function with abc");
+      expect(timesCalled).toBe(1);
+    });
   });
 });
