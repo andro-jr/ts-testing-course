@@ -13,30 +13,36 @@ describe("Utils test suite", () => {
     expect(actual).toBe("ABC");
   });
 
-  it.only("should return info for valid string", () => {
-    const actual = getStringInfo("My-String");
-
-    expect(actual.lowerCase).toBe("my-string");
-    expect(actual.extraInfo).toEqual({});
-    expect(actual.characters).toHaveLength(9);
-    expect(actual.characters).toEqual([
-      "M",
-      "y",
-      "-",
-      "S",
-      "t",
-      "r",
-      "i",
-      "n",
-      "g",
-    ]);
-    expect(actual.characters).toEqual(
-      expect.arrayContaining(["M", "y", "S", "t", "r", "i", "n", "g"])
-    );
-    expect(actual.characters).toContain<string>("M");
-    expect(actual.extraInfo).not.toBe(undefined);
-    expect(actual.extraInfo).not.toBeUndefined();
-    expect(actual.extraInfo).toBeDefined();
-    expect(actual.extraInfo).toBeTruthy();
+  describe("getStringInfo for arf My-String should", () => {
+    it("return right length", () => {
+      const actual = getStringInfo("My-String");
+      expect(actual.characters).toHaveLength(9);
+    });
+    it("return lowercase", () => {
+      const actual = getStringInfo("My-String");
+      expect(actual.lowerCase).toBe("my-string");
+    });
+    it("return uppercase", () => {
+      const actual = getStringInfo("My-String");
+      expect(actual.upperCase).toBe("MY-STRING");
+    });
+    it("return right characters", () => {
+      const actual = getStringInfo("My-String");
+      expect(actual.characters).toEqual([
+        "M",
+        "y",
+        "-",
+        "S",
+        "t",
+        "r",
+        "i",
+        "n",
+        "g",
+      ]);
+    });
+    it("return defined extra info", () => {
+      const actual = getStringInfo("My-String");
+      expect(actual.extraInfo).toBeDefined();
+    });
   });
 });
